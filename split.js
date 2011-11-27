@@ -40,10 +40,12 @@ window.split = (function(){
   };
 
   modes.vertical = function() {
+    frames[0].style['float'] = 'left';
     ysplit(0, frames.length - 1, 'height', 'width', 100, 100);
   };
 
   modes.horizontal = function() {
+    frames[0].style['float'] = 'left';
     ysplit(0, frames.length - 1, 'width', 'height', 100, 100);
   };
 
