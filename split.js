@@ -27,40 +27,46 @@ window.split = (function(){
   };
 
   // split all frames from start to end on the y axis
-  function ysplit(start, end, xattr, yattr, xmax, ymax) {
+  function ysplit(start, end, xattr, xmax, yattr, ymax, style) {
     if ( start > end ) return;
     var framecount = ( end - start + 1 ),
         yshare = Math.floor ( ymax / framecount );
     frames[start].setAttribute ( xattr, xmax + '%' );
     frames[start].setAttribute ( yattr, ( ymax - yshare * ( framecount - 1 ) ) + '%' );
+    if ( style ) frames[start].style = style;
     for ( var i = start + 1 ; i <= end ; i++ ) {
       frames[i].setAttribute ( xattr, xmax + '%' );
       frames[i].setAttribute ( yattr, yshare + '%' );
+      if ( style ) frames[i].style = style;
     }
   };
 
   modes.vertical = function() {
     frames[0].style['float'] = 'left';
-    ysplit(0, frames.length - 1, 'height', 'width', 100, 100);
+    ysplit(0, frames.length - 1, 'height', 100, 'width', 100);
   };
 
   modes.horizontal = function() {
     frames[0].style['float'] = 'left';
-    ysplit(0, frames.length - 1, 'width', 'height', 100, 100);
+    ysplit(0, frames.length - 1, 'width', 100, 'height', 100);
   };
 
   modes.right = function() {
     frames[0].setAttribute('height', '100%');
     frames[0].setAttribute('width', '50%');
     frames[0].style['float'] = 'left';
-    if (frames.length > 1) ysplit(1,frames.length - 1, 'width', 'height', 50, 100);
+    if (frames.length > 1) {
+      ysplit(1,frames.length - 1, 'width', 50, 'height', 100, {'float':'right'});
+    }
   };
 
   modes.left = function() {
     frames[0].setAttribute('height', '100%');
     frames[0].setAttribute('width', '50%');
     frames[0].style['float'] = 'right';
-    if (frames.length > 1) ysplit(1,frames.length - 1, 'width', 'height', 50, 100);
+    if (frames.length > 1) {
+      ysplit(1,frames.length - 1, 'width', 50, 'height', 100, {'float':'right'});
+    }
   };
 
   function showdock(visible) {
